@@ -1,0 +1,35 @@
+trigger:
+- main  # or your branch name
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+# Step 1: Checkout code
+- checkout: self
+
+# Step 2: Install Terraform
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: 'latest'
+
+# Step 3: Initialize Terraform
+- script: |
+    terraform init
+  displayName: 'Initialize Terraform'
+
+# Step 4: Plan Terraform changes
+- script: |
+    terraform plan
+  displayName: 'Terraform Plan'
+
+# Step 5: Apply Terraform changes
+- script: |
+    terraform apply -auto-approve
+  displayName: 'Terraform Apply'
+
+# Step 6: Show output (optional, but useful to get the ACR URL)
+- script: |
+    echo "ACR Login Server URL: $(terraform output acr_login_server)"
+  displayName: 'Show ACR Login URL'
+

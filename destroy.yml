@@ -1,0 +1,32 @@
+trigger:
+- none  # This can be modified based on your needs (e.g., to trigger on a branch or manually)
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseTerraform@0
+  displayName: 'Set up Terraform'
+  inputs:
+    terraformVersion: 'latest'
+
+- task: Checkout@1
+  displayName: 'Checkout code'
+  inputs:
+    repository: self
+    clean: true
+
+- script: |
+    terraform init
+    terraform plan -destroy -out=tfplan
+    terraform apply tfplan
+  displayName: 'Run Terraform Destroy'
+
+- task: AzureCLI@2
+  displayName: 'Log out from Azure'
+  inputs:
+    azureSubscription: '$(azureServiceConnection)'  # Specify your Azure Service Connection
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az logout'
+

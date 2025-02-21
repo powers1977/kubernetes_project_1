@@ -1,35 +1,101 @@
-trigger:
-- main  # or your branch name
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: ubuntu-latest
 
-steps:
-# Step 1: Checkout code
-- checkout: self
+variables:
+  backend_sa_rg: 'devops-rg'
+  backend_sa: 'devopsryanstorage01'
+  backend_container: 'container-project-1-tfstate'
+  backend_sa_key: 'resources.tfstate'
 
-# Step 2: Install Terraform
-- task: TerraformInstaller@1
-  inputs:
-    terraformVersion: 'latest'
-
-# Step 3: Initialize Terraform
-- script: |
-    terraform init
-  displayName: 'Initialize Terraform'
-
-# Step 4: Plan Terraform changes
-- script: |
-    terraform plan
-  displayName: 'Terraform Plan'
-
-# Step 5: Apply Terraform changes
-- script: |
-    terraform apply -auto-approve
-  displayName: 'Terraform Apply'
-
-# Step 6: Show output (optional, but useful to get the ACR URL)
-- script: |
-    echo "ACR Login Server URL: $(terraform output acr_login_server)"
-  displayName: 'Show ACR Login URL'
-
+stages:
+  - stage: tfvalidate
+    jobs:
+      - job: validate
+        continueOnError: false
+        steps:
+          - task: TerraformInstaller@1
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTaskV4@4
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'ryan_service_connection'
+              backendAzureRmResourceGroupName: '$(backend_sa_rg)'
+              backendAzureRmStorageAccountName: '$(backend_sa)'
+              backendAzureRmContainerName: '$(backend_container)'
+              backendAzureRmKey: '$(backend_sa_key)'
+          - task: TerraformTaskV4@4
+            displayName: validate
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
+  - stage: tfplan
+    condition: succeeded('tfvalidate')
+    dependsOn: tfvalidate
+    jobs:
+    - job: plan
+      steps:
+          - task: TerraformInstaller@1
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTaskV4@4
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'ryan_service_connection'
+              backendAzureRmResourceGroupName: '$(backend_sa_rg)'
+              backendAzureRmStorageAccountName: '$(backend_sa)'
+              backendAzureRmContainerName: '$(backend_container)'
+              backendAzureRmKey: '$(backend_sa_key)'
+          - task: TerraformTaskV4@4
+            displayName: plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'ryan_service_connection'
+  - stage: tfdeploy
+    condition: succeeded('tfplan')
+    dependsOn: tfplan
+    jobs:
+    - job: apply
+      steps:
+          - task: TerraformInstaller@1
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTaskV4@4
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'ryan_service_connection'
+              backendAzureRmResourceGroupName: '$(backend_sa_rg)'
+              backendAzureRmStorageAccountName: '$(backend_sa)'
+              backendAzureRmContainerName: '$(backend_container)'
+              backendAzureRmKey: '$(backend_sa_key)'
+          - task: TerraformTaskV4@4
+            displayName: plan
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'ryan_service_connection'
+          - task: TerraformTaskV4@4
+            displayName: apply
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              environmentServiceNameAzureRM: 'ryan_service_connection'
+      
+          

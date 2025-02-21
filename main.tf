@@ -25,6 +25,11 @@ resource "random_pet" "acr_name" {
   length = 2  # Two words: an adjective and an animal
 }
 
+# Define a local variable to remove hyphens
+locals {
+  acr_clean_name = replace(random_pet.acr_name.id, "-", "")
+}
+
 # Resource Group for ACR
 resource "azurerm_resource_group" "container_rg" {
   name     = "containers-rg"
@@ -34,7 +39,7 @@ resource "azurerm_resource_group" "container_rg" {
 # Azure Container Registry with a more readable, unique name
 resource "azurerm_container_registry" "acr" {
   #name                = "acr-${random_pet.acr_name.id}"
-  name                = "acr-${replace(random_pet.acr_name.id, "-", "")}"
+  name                = "acr${local.acr_clean_name}"
   resource_group_name = azurerm_resource_group.container_rg.name
   location            = azurerm_resource_group.container_rg.location
   sku                  = "Basic"

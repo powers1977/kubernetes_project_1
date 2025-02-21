@@ -33,7 +33,8 @@ resource "azurerm_resource_group" "container_rg" {
 
 # Azure Container Registry with a more readable, unique name
 resource "azurerm_container_registry" "acr" {
-  name                = "acr-${random_pet.acr_name.id}" # Memorable unique name
+  #name                = "acr-${random_pet.acr_name.id}"
+  name                = "acr-${replace(random_pet.acr_name.id, "-", "")}"
   resource_group_name = azurerm_resource_group.container_rg.name
   location            = azurerm_resource_group.container_rg.location
   sku                  = "Basic"

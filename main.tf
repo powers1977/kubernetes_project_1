@@ -27,7 +27,7 @@ resource "random_pet" "acr_name" {
 
 # Resource Group for ACR
 resource "azurerm_resource_group" "container_rg" {
-  name     = "my_container_rg"
+  name     = "containers-rg"
   location = "East US"
 }
 

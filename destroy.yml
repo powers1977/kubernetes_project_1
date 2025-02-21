@@ -1,32 +1,45 @@
-trigger:
-- none  # This can be modified based on your needs (e.g., to trigger on a branch or manually)
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: ubuntu-latest
 
-steps:
-- task: UseTerraform@0
-  displayName: 'Set up Terraform'
-  inputs:
-    terraformVersion: 'latest'
+variables:
+  backend_sa_rg: 'devops-rg'
+  backend_sa: 'devopsryanstorage01'
+  backend_container: 'container-project-1-tfstate'
+  backend_sa_key: 'resources.tfstate'
 
-- task: Checkout@1
-  displayName: 'Checkout code'
-  inputs:
-    repository: self
-    clean: true
+stages:
+  - stage: destroy
+    jobs:
+      - job: destroy
+        continueOnError: false
+        steps:
+          - task: TerraformInstaller@1
+            displayName: tfinstall
+            inputs:
+              terraformVersion: 'latest'
+          - task: TerraformTaskV4@4
+            displayName: init
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              backendServiceArm: 'ryan_service_connection'
+              backendAzureRmResourceGroupName: '$(backend_sa_rg)'
+              backendAzureRmStorageAccountName: '$(backend_sa)'
+              backendAzureRmContainerName: '$(backend_container)'
+              backendAzureRmKey: '$(backend_sa_key)'
+          - task: TerraformTaskV4@4
+            displayName: destroy
+            inputs:
+              provider: 'azurerm'
+              command: 'destroy'
+              environmentServiceNameAzureRM: 'ryan_service_connection'
 
-- script: |
-    terraform init
-    terraform plan -destroy -out=tfplan
-    terraform apply tfplan
-  displayName: 'Run Terraform Destroy'
-
-- task: AzureCLI@2
-  displayName: 'Log out from Azure'
-  inputs:
-    azureSubscription: '$(azureServiceConnection)'  # Specify your Azure Service Connection
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az logout'
-
+      
+          

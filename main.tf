@@ -20,15 +20,22 @@ provider "azurerm" {
   features {}
 }
 
-# Random provider for generating the unique, memorable name
-resource "random_pet" "acr_name" {
-  length = 2  # Two words: an adjective and an animal
+# Static project name
+variable "project_name" {
+  type    = string
+  default = "grownpossum"
 }
 
+
+# Random provider for generating the unique, memorable name
+#resource "random_pet" "acr_name" {
+#  length = 2  # Two words: an adjective and an animal
+#}
+
 # Define a local variable to remove hyphens
-locals {
-  pet_clean_name = replace(random_pet.acr_name.id, "-", "")
-}
+#locals {
+#  pet_clean_name = replace(random_pet.acr_name.id, "-", "")
+#}
 
 # Resource Group for ACR
 resource "azurerm_resource_group" "container_rg" {
@@ -39,7 +46,8 @@ resource "azurerm_resource_group" "container_rg" {
 # Azure Container Registry with a more readable, unique name
 resource "azurerm_container_registry" "acr" {
   #name                = "acr-${random_pet.acr_name.id}"
-  name                = "acr${local.pet_clean_name}"
+  #name                = "acr${local.pet_clean_name}"
+  name                = "acr${var.project_name}"
   resource_group_name = azurerm_resource_group.container_rg.name
   location            = azurerm_resource_group.container_rg.location
   sku                  = "Basic"
@@ -47,10 +55,12 @@ resource "azurerm_container_registry" "acr" {
 }
 # Azure Kubernetes Service (AKS) Cluster (future-proof version)
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                = "aks${local.pet_clean_name}"
+  #name                = "aks${local.pet_clean_name}"
+  name                = "aks${var.project_name}"
   location            = azurerm_resource_group.container_rg.location
   resource_group_name = azurerm_resource_group.container_rg.name
-  dns_prefix          = "aks${local.pet_clean_name}"
+  #dns_prefix          = "aks${local.pet_clean_name}"
+  dns_prefix          = "aks${var.project_name}"
 
   default_node_pool {
     name       = "default"

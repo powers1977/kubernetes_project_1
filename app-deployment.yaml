@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grownpossum-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grownpossum
+  template:
+    metadata:
+      labels:
+        app: grownpossum
+    spec:
+      containers:
+      - name: grownpossum-container
+        image: acrgrownpossum.azurecr.io/my-nginx:latest
+        ports:
+        - containerPort: 80
+

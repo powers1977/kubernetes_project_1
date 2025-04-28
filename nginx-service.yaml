@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: nginx-service
   labels:
-    app: grownpossum-app
+    app: grownpossum
 spec:
   type: LoadBalancer
   selector:
-    app: grownpossum-app
+    app: grownpossum
   ports:
     - name: http
       protocol: TCP

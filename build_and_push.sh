@@ -2,7 +2,7 @@
 
 # Define variables
 IMAGE_NAME="my-nginx"       # Image name
-ACR_NAME="acrrealmink"      # Azure Container Registry name
+ACR_NAME="acrgrownpossum"      # Azure Container Registry name
 VERSION_TAG="v1.0"          # Version tag for your image
 LATEST_TAG="latest"         # Tag for latest
 

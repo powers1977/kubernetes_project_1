@@ -39,7 +39,8 @@ variable "project_name" {
 
 # Resource Group for ACR
 resource "azurerm_resource_group" "container_rg" {
-  name     = "containers-rg"
+  #name     = "containers-rg"
+  name     = "${var.project_name}-rg"
   location = "East US"
 }
 

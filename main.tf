@@ -2,7 +2,7 @@ terraform {
   backend "azurerm" {
     resource_group_name  = "devops-rg"
     storage_account_name = "devopsryanstorage01"
-    container_name       = "container-project-1-tfstate"
+    container_name       = "kubernetes-project-1-tfstate"
     key                  = "resources.tfstate"
     lineage              = "ryan-lineage"
   }

@@ -11,7 +11,7 @@ pool:
 variables:
   backend_sa_rg: 'devops-rg'
   backend_sa: 'devopsryanstorage01'
-  backend_container: 'container-project-1-tfstate'
+  backend_container: 'kubernetes-project-1-tfstate'
   backend_sa_key: 'resources.tfstate'
 
 stages:

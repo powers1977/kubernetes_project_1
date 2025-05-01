@@ -34,11 +34,13 @@ stages:
               backendAzureRmStorageAccountName: '$(backend_sa)'
               backendAzureRmContainerName: '$(backend_container)'
               backendAzureRmKey: '$(backend_sa_key)'
+              workingDirectory: 'terraform'
           - task: TerraformTaskV4@4
             displayName: validate
             inputs:
               provider: 'azurerm'
               command: 'validate'
+              workingDirectory: 'terraform'
   - stage: tfplan
     condition: succeeded('tfvalidate')
     dependsOn: tfvalidate
@@ -49,6 +51,7 @@ stages:
             displayName: tfinstall
             inputs:
               terraformVersion: 'latest'
+              workingDirectory: 'terraform'
           - task: TerraformTaskV4@4
             displayName: init
             inputs:
@@ -59,12 +62,14 @@ stages:
               backendAzureRmStorageAccountName: '$(backend_sa)'
               backendAzureRmContainerName: '$(backend_container)'
               backendAzureRmKey: '$(backend_sa_key)'
+              workingDirectory: 'terraform'
           - task: TerraformTaskV4@4
             displayName: plan
             inputs:
               provider: 'azurerm'
               command: 'plan'
               environmentServiceNameAzureRM: 'ryan_service_connection'
+              workingDirectory: 'terraform'
   - stage: tfdeploy
     condition: succeeded('tfplan')
     dependsOn: tfplan
@@ -85,6 +90,7 @@ stages:
               backendAzureRmStorageAccountName: '$(backend_sa)'
               backendAzureRmContainerName: '$(backend_container)'
               backendAzureRmKey: '$(backend_sa_key)'
+              workingDirectory: 'terraform'
           - task: TerraformTaskV4@4
             displayName: plan
             inputs:

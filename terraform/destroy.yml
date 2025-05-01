@@ -34,11 +34,13 @@ stages:
               backendAzureRmStorageAccountName: '$(backend_sa)'
               backendAzureRmContainerName: '$(backend_container)'
               backendAzureRmKey: '$(backend_sa_key)'
+              workingDirectory: 'terraform'
           - task: TerraformTaskV4@4
             displayName: destroy
             inputs:
               provider: 'azurerm'
               command: 'destroy'
+              workingDirectory: 'terraform'
               environmentServiceNameAzureRM: 'ryan_service_connection'
 
       

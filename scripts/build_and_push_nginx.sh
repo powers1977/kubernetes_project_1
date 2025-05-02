@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Define variables
-WORKING_DIR=$(pwd)/..
+#WORKING_DIR=$(pwd)/..
+WORKING_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 IMAGE_NAME="my-nginx"       # Image name
 ACR_NAME="acrgrownpossum"      # Azure Container Registry name
 VERSION_TAG="v1.0"          # Version tag for your image

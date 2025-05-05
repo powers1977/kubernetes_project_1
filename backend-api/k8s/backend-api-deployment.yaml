@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-api
+  name: backend-api-app
 spec:
   replicas: 1
   selector:
@@ -13,7 +13,7 @@ spec:
         app: backend-api
     spec:
       containers:
-      - name: backend-api
+      - name: backend-api-container
         image: acrgrownpossum.azurecr.io/backend-api:latest
         ports:
         - containerPort: 5000

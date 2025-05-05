@@ -16,7 +16,7 @@ spec:
             name: nginx-service
             port:
               number: 80
-      - path: /api
+      - path: /api/status
         pathType: Prefix
         backend:
           service:

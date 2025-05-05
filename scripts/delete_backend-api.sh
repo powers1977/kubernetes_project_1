@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define resource files
-DEPLOYMENT_FILE="../backend-api/app-deployment.yaml"
-SERVICE_FILE="../backend-api/backend-api-service.yaml"
+DEPLOYMENT_FILE="../backend-api/k8s/backend-api-deployment.yaml"
+SERVICE_FILE="../backend-api/k8s/backend-api-service.yaml"
 
 echo "Deleting service..."
 kubectl delete -f $SERVICE_FILE

@@ -84,7 +84,9 @@ resource "azurerm_kubernetes_cluster_extension" "ingress_nginx" {
   cluster_id           = azurerm_kubernetes_cluster.aks.id
   extension_type       = "microsoft.ingress.nginx"
   release_train        = "Stable"
-  auto_upgrade_minor_version = true
+
+  #might be needed in future version
+  #auto_upgrade_minor_version = true
 
   configuration_settings = {
     "controller.enableCertManager" = "false"

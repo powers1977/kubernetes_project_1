@@ -10,7 +10,8 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.4.1"
+      #version = ">= 2.4.1"
+      version = ">= 2.91.0" # newer version supports extensions
     }
   }
 }
@@ -75,6 +76,18 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   network_profile {
     network_plugin = "azure"
+  }
+}
+
+resource "azurerm_kubernetes_cluster_extension" "ingress_nginx" {
+  name                 = "ingress-nginx"
+  cluster_id           = azurerm_kubernetes_cluster.aks.id
+  extension_type       = "microsoft.ingress.nginx"
+  release_train        = "Stable"
+  auto_upgrade_minor_version = true
+
+  configuration_settings = {
+    "controller.enableCertManager" = "false"
   }
 }
 

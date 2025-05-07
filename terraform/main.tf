@@ -42,7 +42,7 @@ variable "project_name" {
 resource "azurerm_resource_group" "container_rg" {
   #name     = "containers-rg"
   name     = "${var.project_name}-rg"
-  location = "East US"
+  location = "East US 2"
 }
 
 # Azure Container Registry with a more readable, unique name

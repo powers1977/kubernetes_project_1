@@ -42,7 +42,7 @@ variable "project_name" {
 resource "azurerm_resource_group" "container_rg" {
   #name     = "containers-rg"
   name     = "${var.project_name}-rg"
-  location = "East US 2"
+  location = "East US"
 }
 
 # Azure Container Registry with a more readable, unique name
@@ -79,19 +79,19 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 }
 
-resource "azurerm_kubernetes_cluster_extension" "ingress_nginx" {
-  name                 = "ingress-nginx"
-  cluster_id           = azurerm_kubernetes_cluster.aks.id
-  extension_type       = "microsoft.ingress.nginx"
-  release_train        = "Stable"
-
-  #might be needed in future version
-  #auto_upgrade_minor_version = true
-
-  configuration_settings = {
-    "controller.enableCertManager" = "false"
-  }
-}
+#resource "azurerm_kubernetes_cluster_extension" "ingress_nginx" {
+#  name                 = "ingress-nginx"
+#  cluster_id           = azurerm_kubernetes_cluster.aks.id
+#  extension_type       = "microsoft.ingress.nginx"
+#  release_train        = "Stable"
+#
+#  #might be needed in future version
+#  #auto_upgrade_minor_version = true
+#
+#  configuration_settings = {
+#    "controller.enableCertManager" = "false"
+#  }
+#}
 
 # Give AKS permission to pull from ACR
 resource "azurerm_role_assignment" "aks_acr_pull" {

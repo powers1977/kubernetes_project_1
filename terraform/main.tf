@@ -45,6 +45,14 @@ resource "azurerm_resource_group" "container_rg" {
   location = "East US"
 }
 
+resource "azurerm_log_analytics_workspace" "monitoring_law" {
+  name                = "${var.project_name}-law"
+  location            = azurerm_resource_group.container_rg.location
+  resource_group_name = azurerm_resource_group.container_rg.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+}
+
 # Azure Container Registry with a more readable, unique name
 resource "azurerm_container_registry" "acr" {
   #name                = "acr-${random_pet.acr_name.id}"
@@ -77,6 +85,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
   network_profile {
     network_plugin = "azure"
   }
+#  addon_profile {
+#  oms_agent {
+#    enabled                    = true
+#    log_analytics_workspace_id = azurerm_log_analytics_workspace.monitoring_law.id
+#  }
+#  }
 }
 
 #resource "azurerm_kubernetes_cluster_extension" "ingress_nginx" {
@@ -110,4 +124,9 @@ output "acr_login_server" {
 output "aks_name" {
   value = azurerm_kubernetes_cluster.aks.name
 }
+
+output "law_workspace_id" {
+  value = azurerm_log_analytics_workspace.monitoring_law.id
+}
+
 

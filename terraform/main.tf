@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.3.0"
   backend "azurerm" {
     resource_group_name  = "devops-rg"
     storage_account_name = "devopsryanstorage01"
@@ -11,7 +12,8 @@ terraform {
     azurerm = {
       source  = "hashicorp/azurerm"
       #version = ">= 2.4.1"
-      version = ">= 2.91.0" # newer version supports extensions
+      #version = ">= 2.91.0" # newer version supports extensions
+      version = ">= 3.95.0"
     }
   }
 }

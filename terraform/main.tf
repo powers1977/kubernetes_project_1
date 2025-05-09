@@ -81,7 +81,6 @@ resource "azurerm_subnet" "private_link_subnet" {
   resource_group_name                           = azurerm_resource_group.container_rg.name
   virtual_network_name                          = azurerm_virtual_network.aks_vnet.name
   address_prefixes                              = ["10.0.2.0/24"]
-  enforce_private_link_endpoint_network_policies = true
 }
 
 # Azure Container Registry with a more readable, unique name

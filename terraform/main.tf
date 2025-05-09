@@ -27,6 +27,11 @@ variable "project_name" {
   default = "grownpossum"
 }
 
+variable "location" {
+  type    = string
+  default = "eastus"
+}
+
 
 # Random provider for generating the unique, memorable name
 #resource "random_pet" "acr_name" {
@@ -57,13 +62,13 @@ resource "azurerm_virtual_network" "aks_vnet" {
   name                = "${var.project_name}-vnet"
   address_space       = ["10.0.0.0/16"]
   location            = var.location
-  resource_group_name = var.resource_group_name
-  tags                = var.tags
+  resource_group_name = aurerm_resource_group.container_rg.name 
+  #tags                = var.tags
 }
 
 resource "azurerm_subnet" "aks_subnet" {
   name                 = "${var.project_name}-subnet"
-  resource_group_name  = var.resource_group_name
+  resource_group_name  = azurerm_resource_group.container_rg.name 
   virtual_network_name = azurerm_virtual_network.aks_vnet.name
   address_prefixes     = ["10.0.1.0/24"]
 }

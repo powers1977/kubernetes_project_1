@@ -1,9 +1,9 @@
 resource "azurerm_monitor_data_collection_endpoint" "aks_dce" {
-  name                = "${var.prefix}-dce"
+  name                = "${var.project_name}-dce"
   location            = azurerm_resource_group.container_rg.location
   resource_group_name = azurerm_resource_group.container_rg.name
   kind                = "Linux"
-  tags                = var.tags
+  #tags                = var.tags
 }
 
 resource "azurerm_monitor_data_collection_rule" "aks_dcr" {

@@ -35,6 +35,7 @@ stages:
               backendAzureRmContainerName: '$(backend_container)'
               backendAzureRmKey: '$(backend_sa_key)'
               workingDirectory: '$(Build.SourcesDirectory)/terraform'
+              additionalArgs: '-upgrade'
           - task: TerraformTaskV4@4
             displayName: validate
             inputs:
@@ -63,6 +64,7 @@ stages:
               backendAzureRmContainerName: '$(backend_container)'
               backendAzureRmKey: '$(backend_sa_key)'
               workingDirectory: '$(Build.SourcesDirectory)/terraform'
+              additionalArgs: '-upgrade'
           - task: TerraformTaskV4@4
             displayName: plan
             inputs:
@@ -91,6 +93,7 @@ stages:
               backendAzureRmContainerName: '$(backend_container)'
               backendAzureRmKey: '$(backend_sa_key)'
               workingDirectory: '$(Build.SourcesDirectory)/terraform'
+              additionalArgs: '-upgrade'
           - task: TerraformTaskV4@4
             displayName: plan
             inputs:

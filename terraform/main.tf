@@ -47,7 +47,8 @@ variable "location" {
 resource "azurerm_resource_group" "container_rg" {
   #name     = "containers-rg"
   name     = "${var.project_name}-rg"
-  location = "East US"
+  #location = "East US"
+  location = var.location 
 }
 
 resource "azurerm_log_analytics_workspace" "monitoring_law" {

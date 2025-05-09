@@ -15,7 +15,7 @@ resource "azurerm_monitor_data_collection_rule" "aks_dcr" {
   destinations {
     log_analytics {
       name          = "logAnalyticsDest"
-      workspace_id  = azurerm_log_analytics_workspace.monitoring_law.id
+      workspace_resource_id  = azurerm_log_analytics_workspace.monitoring_law.id
     }
   }
 
@@ -29,6 +29,10 @@ resource "azurerm_monitor_data_collection_rule" "aks_dcr" {
         "\\Memory\\Available MBytes"
       ]
     }
+  }
+    data_flow {
+    streams      = ["Microsoft-InsightsMetrics"]
+    destinations = ["logAnalyticsDest"]
   }
 }
 

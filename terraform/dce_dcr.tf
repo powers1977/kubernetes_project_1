@@ -38,7 +38,6 @@ resource "azurerm_monitor_data_collection_rule" "aks_dcr" {
 
 resource "azurerm_monitor_data_collection_rule_association" "aks_dcr_association" {
   name                    = "${var.project_name}-dcr-association"
-  resource_group_name     = azurerm_resource_group.container_rg.name
   data_collection_rule_id = azurerm_monitor_data_collection_rule.aks_dcr.id
   target_resource_id      = azurerm_kubernetes_cluster.aks.id
 

@@ -6,6 +6,17 @@ resource "azurerm_monitor_data_collection_endpoint" "aks_dce" {
   #tags                = var.tags
 }
 
+resource "azurerm_monitor_data_collection_endpoint_association" "aks_dce_association" {
+  name                         = "${var.project_name}-dce-association"
+  data_collection_endpoint_id = azurerm_monitor_data_collection_endpoint.aks_dce.id
+  target_resource_id          = azurerm_kubernetes_cluster.aks.id
+
+  depends_on = [
+    azurerm_monitor_data_collection_endpoint.aks_dce,
+    azurerm_kubernetes_cluster.aks
+  ]
+}
+
 resource "azurerm_monitor_data_collection_rule" "aks_dcr" {
   name                          = "${var.project_name}-aks-dcr"
   location                      = azurerm_resource_group.container_rg.location

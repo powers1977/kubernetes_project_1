@@ -53,6 +53,21 @@ resource "azurerm_log_analytics_workspace" "monitoring_law" {
   retention_in_days   = 30
 }
 
+resource "azurerm_virtual_network" "aks_vnet" {
+  name                = "${var.project_name}-vnet"
+  address_space       = ["10.0.0.0/16"]
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  tags                = var.tags
+}
+
+resource "azurerm_subnet" "aks_subnet" {
+  name                 = "${var.project_name}-subnet"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.aks_vnet.name
+  address_prefixes     = ["10.0.1.0/24"]
+}
+
 # Azure Container Registry with a more readable, unique name
 resource "azurerm_container_registry" "acr" {
   #name                = "acr-${random_pet.acr_name.id}"
@@ -76,6 +91,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
     name       = "default"
     node_count = 1
     vm_size    = "Standard_DS2_v2"
+	#__add line below if you have a VNET. Leave out to use default AKS VNET
+    vnet_subnet_id = azurerm_subnet.aks_subnet.id
   }
 
   identity {
@@ -84,6 +101,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   network_profile {
     network_plugin = "azure"
+    network_policy = "azure"
   }
 #  addon_profile {
 #  oms_agent {

@@ -46,6 +46,10 @@ resource "azurerm_monitor_data_collection_rule" "aks_dcr" {
     streams      = ["Microsoft-InsightsMetrics"]
     destinations = ["logAnalyticsDest"]
   }
+  depends_on = [
+  azurerm_log_analytics_workspace.monitoring_law
+  ]
+
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "aks_dcr_association" {

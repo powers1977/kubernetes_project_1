@@ -47,7 +47,7 @@ resource "azurerm_monitor_data_collection_rule" "aks_dcr" {
     destinations = ["logAnalyticsDest"]
   }
   depends_on = [
-  azurerm_log_analytics_workspace.monitoring_law
+  azurerm_log_analytics_workspace.monitoring_law,
   azurerm_monitor_data_collection_endpoint.aks_dce
   ]
 

@@ -1,3 +1,9 @@
+resource "time_sleep" "wait_for_dce" {
+  depends_on = [azurerm_monitor_data_collection_endpoint.aks_dce]
+  create_duration = "30s"
+}
+
+
 resource "azurerm_monitor_data_collection_endpoint" "aks_dce" {
   name                = "${var.project_name}-dce"
   location            = azurerm_resource_group.container_rg.location
@@ -5,18 +11,6 @@ resource "azurerm_monitor_data_collection_endpoint" "aks_dce" {
   kind                = "Linux"
   #tags                = var.tags
 }
-
-#__Suggested by AI, but this does not work__
-#resource "azurerm_monitor_data_collection_endpoint_association" "aks_dce_association" {
-#  name                         = "${var.project_name}-dce-association"
-#  data_collection_endpoint_id = azurerm_monitor_data_collection_endpoint.aks_dce.id
-#  target_resource_id          = azurerm_kubernetes_cluster.aks.id
-#
-#  depends_on = [
-#    azurerm_monitor_data_collection_endpoint.aks_dce,
-#    azurerm_kubernetes_cluster.aks
-#  ]
-#}
 
 resource "azurerm_monitor_data_collection_rule" "aks_dcr" {
   name                          = "${var.project_name}-aks-dcr"
@@ -48,7 +42,8 @@ resource "azurerm_monitor_data_collection_rule" "aks_dcr" {
   }
   depends_on = [
   azurerm_log_analytics_workspace.monitoring_law,
-  azurerm_monitor_data_collection_endpoint.aks_dce
+  azurerm_monitor_data_collection_endpoint.aks_dce,
+  time_sleep.wait_for_dce
   ]
 
 }

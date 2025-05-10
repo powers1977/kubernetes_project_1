@@ -5,7 +5,7 @@ terraform {
     storage_account_name = "devopsryanstorage01"
     container_name       = "kubernetes-project-1-tfstate"
     key                  = "resources.tfstate"
-    lineage              = "ryan-lineage"
+    #lineage              = "ryan-lineage"
   }
 
   required_providers {
@@ -21,6 +21,7 @@ terraform {
 # Provider Configuration
 provider "azurerm" {
   features {}
+  use_cli  = true
 }
 
 # Static project name

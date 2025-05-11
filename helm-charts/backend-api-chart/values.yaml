@@ -1,0 +1,14 @@
+replicaCount: 1
+image:
+  repository: acrgrownpossum.azurecr.io/backend-api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5000
+
+labels:
+  app: backend-api
+

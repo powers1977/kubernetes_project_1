@@ -1,0 +1,14 @@
+replicaCount: 1
+image:
+  repository: acrgrownpossum.azurecr.io/my-nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+labels:
+  app: nginx
+

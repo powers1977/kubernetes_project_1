@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nginx
+description: Helm chart for custom nginx frontend
+version: 0.1.0
+appVersion: "1.0"
+

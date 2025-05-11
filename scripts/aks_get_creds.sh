@@ -1,1 +1,1 @@
-az aks get-credentials --resource-group grownpossum-rg --name aksgrownpossum
+az aks get-credentials --resource-group grownpossum-rg --name aksgrownpossum --overwrite-existing

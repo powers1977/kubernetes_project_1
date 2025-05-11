@@ -43,7 +43,8 @@ resource "azurerm_monitor_data_collection_rule" "aks_dcr" {
   depends_on = [
   azurerm_log_analytics_workspace.monitoring_law,
   azurerm_monitor_data_collection_endpoint.aks_dce,
-  time_sleep.wait_for_dce
+  time_sleep.wait_for_dce,
+  azurerm_kubernetes_cluster.aks
   ]
 
 }

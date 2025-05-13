@@ -1,9 +1,17 @@
+
+variable "enable_ampls" {
+  type    = bool
+  default = false
+}
+
 resource "azurerm_monitor_private_link_scope" "ampls" {
+  count = var.ampls ? 1 : 0
   name                = "${var.project_name}-ampls"
   resource_group_name = azurerm_resource_group.container_rg.name
 }
 
 resource "azurerm_monitor_private_link_scoped_service" "ampls_law" {
+  count = var.ampls ? 1 : 0
   name                 = "ampls-law"
   resource_group_name  = azurerm_monitor_private_link_scope.ampls.resource_group_name
   scope_name           = azurerm_monitor_private_link_scope.ampls.name

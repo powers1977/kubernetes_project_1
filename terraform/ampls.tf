@@ -10,6 +10,7 @@ resource "azurerm_monitor_private_link_scoped_service" "ampls_law" {
   linked_resource_id   = azurerm_log_analytics_workspace.monitoring_law.id 
 }
 
+#___Just leave this out for now. Easier to build manually because of auto-DNS entries
 #resource "azurerm_private_endpoint" "ampls_pe" {
 #  name                = "${var.project_name}-ampls-pe"
 #  location            = azurerm_resource_group.container_rg.location

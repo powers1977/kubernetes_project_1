@@ -106,7 +106,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name       = "default"
     node_count = 1
-    vm_size    = "Standard_DS2_v2"
+    #vm_size    = "Standard_DS2_v2"
+    vm_size    = "Standard_B2s"
 	#__add line below if you have a VNET. Leave out to use default AKS VNET
     vnet_subnet_id = azurerm_subnet.aks_subnet.id
   }

@@ -73,3 +73,4 @@ output "acr_login_server" {
 # Output AKS name
 output "aks_name" {
   value = azurerm_kubernetes_cluster.aks.name
+}

@@ -13,14 +13,16 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx-service
+            #name: nginx-service
+            name: nginx-nprd-nginx       # <--  helm name
             port:
               number: 80
       - path: /api/status
         pathType: Prefix
         backend:
           service:
-            name: backend-api-service
+            #name: backend-api-service
+            name: e-api-nprd-backend-api  # <-- helm name
             port:
               number: 5000
 

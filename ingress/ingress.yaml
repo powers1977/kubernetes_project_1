@@ -22,7 +22,7 @@ spec:
         backend:
           service:
             #name: backend-api-service
-            name: e-api-nprd-backend-api  # <-- helm name
+            name: be-api-nprd-backend-api  # <-- helm name
             port:
               number: 5000
 

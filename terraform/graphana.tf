@@ -2,14 +2,15 @@ resource "azurerm_dashboard_grafana" "main" {
   name                = "${var.project_name}-grafana"
   location            = var.location
   resource_group_name = azurerm_resource_group.container_rg.name
-  grafana_major_version  = 9
+  grafana_major_version  = 10 
 
   identity {
     type = "SystemAssigned"
   }
 
   #sku = "Standard" # You can also try "Basic" if cost is a concern
-  sku = "Basic" # You can also try "Basic" if cost is a concern
+  #sku = "Basic" # No longer exists?! 
+  sku = "Essential" #  Cheapest one!  Might be missing some features. 
 }
 
 # Required for role assignment below

@@ -1,6 +1,6 @@
 variable "enable_ampls" {
   type    = bool
-  default = false
+  default = true 
 }
 
 resource "azurerm_monitor_private_link_scope" "ampls" {

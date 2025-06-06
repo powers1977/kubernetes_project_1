@@ -1,0 +1,31 @@
+Environment setup steps
+
+1. Run Pipeline
+2. aks_get_creds.sh
+3. install-ingress-nginx-controller.sh
+4. apply_ingress.sh
+5. build_and_push_nginx.sh
+6. build_and_push_backend-api.sh
+7. deploy_nginx.sh
+8. deploy_backend-api.sh
+
+From Portal
+9.  AKS --> Insights --> Monitor Settings --> Advanced Settings --> Configure (with LAW)
+10. DCE --> add AKS as a resource
+11. Create AMPLS PE:   AMPLS --> Create PE --> Name= grownpossum-ampls-pe   type= Microsoft.Insights/PrivateLinkScopes
+12. OPTIONAL:   restrict DCE and LAW to private network only
+
+
+--------------------------------------------------------------------
+NEW STEPS with HELM
+
+1. Run Pipeline
+2. aks_get_creds.sh
+3. install-ingress-nginx-controller.sh
+4. apply_ingress.sh
+5. build_and_push_nginx.sh
+6. build_and_push_backend-api.sh
+7. helm install nginx-nprd ./helm-charts/nginx-chart
+8. helm install be-api-nprd ./helm-charts/backend-api-chart
+
+
